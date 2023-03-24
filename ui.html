@@ -6,11 +6,11 @@
 </style>
 
 <div>
-	<textarea id="layers" autocorrect="off" spellcheck="false" ></textarea>
+	<textarea id="layers"
+	          autocorrect="off"
+	          spellcheck="false" >
+	</textarea>
 </div>
-<!--<p>-->
-<!--	<button id="copy">Copy</button>-->
-<!--</p>-->
 
 <script>
 
@@ -29,11 +29,6 @@
 				el.value = "nothing selected";
 			}
 		}
-	}
-
-	document.getElementById('copy').onclick = () => {
-		window.clipboard.writeText(content.join("\n"));
-		parent.postMessage({pluginMessage: {type: 'close'}}, '*')
 	}
 
 	window.onkeydown = (event) => {
