@@ -1,0 +1,47 @@
+<style>
+	textarea {
+		width: 100%;
+		height: 100%;
+	}
+</style>
+
+<div>
+	<textarea id="layers" autocorrect="off" spellcheck="false" ></textarea>
+</div>
+<!--<p>-->
+<!--	<button id="copy">Copy</button>-->
+<!--</p>-->
+
+<script>
+
+	let content = [];
+
+	onmessage = (event) => {
+		const msg = event.data.pluginMessage;
+		console.log("msg:", msg.type);
+		if (msg.type === "selected_layers") {
+			content = msg.data;
+			const el = document.getElementById("layers");
+			if (content) {
+				el.textContent = content.join("\n");
+				el.select();
+			} else {
+				el.value = "nothing selected";
+			}
+		}
+	}
+
+	document.getElementById('copy').onclick = () => {
+		window.clipboard.writeText(content.join("\n"));
+		parent.postMessage({pluginMessage: {type: 'close'}}, '*')
+	}
+
+	window.onkeydown = (event) => {
+		switch (event.key) {
+			case "Escape":
+				parent.postMessage({pluginMessage: {type: "close"}}, "*");
+				break;
+		}
+	}
+
+</script>
